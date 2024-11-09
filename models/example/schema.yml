@@ -1,0 +1,57 @@
+
+# version: 2
+
+# models:
+#     - name: my_first_dbt_model
+#       description: "A starter dbt model"
+#       columns:
+#           - name: id
+#             description: "The primary key for this table"
+#             tests:
+#                 - unique
+#                 - not_null
+
+#     - name: my_second_dbt_model
+#       description: "A starter dbt model"
+#       columns:
+#           - name: id
+#             description: "The primary key for this table"
+#             tests:
+#                 - unique
+#                 - not_null
+
+
+version: 2
+models:
+  - name: transformations
+    description: "Table with transformed YouTube data"
+    columns:
+      - name: title
+        description: "Video title"
+      - name: video_id
+        description: "Unique identifier for the video"
+        tests:
+          - not_null
+          - unique
+      - name: channel_id
+        description: "Unique identifier for the channel"
+        tests:
+          - not_null
+      - name: channel_title
+        description: "Channel title"
+      - name: total_views
+        description: "Total number of views for the video"
+        tests:
+          - not_null
+      - name: likes
+        description: "Total likes"
+      - name: dislikes
+        description: "Total dislikes"
+      - name: comments
+        description: "Total comments"
+      - name: category
+        description: "Category of the video"
+        tests:
+          - not_null
+      - name: row_num
+        description: "Row number used for filtering the data"

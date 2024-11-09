@@ -1,0 +1,7 @@
+version: 2
+
+sources:
+  - name: youtube_data
+    schema: youtube_data  # Replace with your BigQuery dataset name
+    tables:
+      - name: raw_data  # Replace with your BigQuery table name
