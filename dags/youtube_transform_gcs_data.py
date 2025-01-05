@@ -66,7 +66,7 @@ def transform_gcs_files(bucket_name):
 transform_task = PythonOperator(
     task_id='transform_gcs_files',
     python_callable=transform_gcs_files,
-    op_kwargs={'bucket_name': 'us-central1-youtubepipeline-0006d8b4-bucket'},
+    op_kwargs={'bucket_name': #bucket name},
     dag=dag,
 )
 
