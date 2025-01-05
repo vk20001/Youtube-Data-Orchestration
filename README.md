@@ -1,6 +1,3 @@
-Here’s the full content for your README file:
-
----
 
 # **YouTube Data Pipeline with DBT**
 
@@ -151,18 +148,8 @@ dbt test
 
 ---
 
-## **Contributing**
-Contributions are welcome! Please follow these steps:
-1. Fork this repository.
-2. Create a new branch.
-3. Commit and push your changes.
-4. Submit a pull request.
-
----
-
 ## **License**
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-Let me know if you'd like any changes or additional sections!
