@@ -8,10 +8,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # YouTube API and Google Cloud Pub/Sub settings
-api_key = "AIzaSyBmqpfdsXA6nJh4cqIfNyBiORZkr-GrG1E"  # Replace with your actual API key
-project_id = "composer-youtube"      # Replace with your actual Google Cloud project ID
-topic_id = "Trigger-youtube"         # Replace with your actual Pub/Sub topic ID
-query = " "               # YouTube query for video search
+# api_key = "  "  # Replace with your actual API key
+# project_id = " "      # Replace with your actual Google Cloud project ID
+# topic_id = " "         # Replace with your actual Pub/Sub topic ID
+# query = " "               # YouTube query for video search
 
 # YouTube API endpoints
 search_endpoint = "https://www.googleapis.com/youtube/v3/search"
