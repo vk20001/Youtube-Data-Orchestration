@@ -76,9 +76,9 @@ load_task = PythonOperator(
     task_id='load_to_bigquery',
     python_callable=load_data_to_bigquery,
     op_kwargs={
-        'bucket_name': 'us-central1-youtubepipeline-0006d8b4-bucket',
-        'dataset_name': 'youtube_data',  # Replace with your BigQuery dataset name
-        'table_name': 'raw_data'         # Replace with your BigQuery table name
+        'bucket_name': ' ',              # Replace with GCP bucket name
+        'dataset_name': 'youtube_data',  # Replace with BigQuery dataset name
+        'table_name': 'raw_data'         # Replace with BigQuery table name
     },
     dag=dag,
 )
