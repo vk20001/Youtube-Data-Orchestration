@@ -25,7 +25,7 @@ dag = DAG(
 )
 
 def transform_gcs_files(bucket_name):
-    # Initialize storage client
+   
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
 
