@@ -75,8 +75,8 @@ This repository contains a data pipeline project designed to fetch, process, and
 
 ### **1. Clone the Repository**
 ```bash
-git clone https://github.com/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/vk20001/youtube-data-orchestration.git
+cd youtube-data-orchestration
 ```
 
 ### **2. Install Requirements**
