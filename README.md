@@ -146,10 +146,4 @@ dbt test
 - Integrate a dashboard for visualizing YouTube analytics.
 - Extend support to other social media APIs.
 
----
-
-## **License**
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
 
