@@ -1,149 +1,109 @@
+# Event Driven Data Platform on Google Cloud
 
-# **YouTube Data Pipeline with DBT**
+## Overview
+This repository implements a cloud native event driven data platform built on Google Cloud. It fetches external API events, ingests them asynchronously, transforms the data into governed analytical tables, and orchestrates continuous processing using Composer.
 
-## **Overview**
-This repository contains a data pipeline project designed to fetch, process, and analyze YouTube data using **Google Cloud**, **DBT**, and **Apache Airflow DAGs** for orchestration. The pipeline automates the ingestion, transformation, and storage of YouTube data, enabling efficient analysis and visualization.
-
----
-
-## **Project Components**
-
-1. **Data Ingestion**:
-   - A custom Python script fetches YouTube data (e.g., video uploads, live streams) using the YouTube Data API.
-   - Data is published to Google Cloud Pub/Sub for further processing.
-
-2. **Orchestration**:
-   - **Apache Airflow DAGs** manage the pipeline workflow:
-     - Fetch data from the YouTube API.
-     - Process and store raw data in **Google Cloud Storage (GCS)**.
-     - Transform raw data into analytics-ready datasets using **DBT**.
-
-3. **Data Transformation**:
-   - **DBT (Data Build Tool)** transforms raw data into clean and structured tables stored in **BigQuery**.
-
-4. **Storage**:
-   - **Google Cloud Storage (GCS)**: Stores raw data files in JSON/CSV format.
-   - **BigQuery**: Stores processed and transformed datasets.
+The system demonstrates:
+- decoupled ingestion  
+- scalable data processing  
+- semantic modeling using DBT  
+- automated workflow orchestration  
+- secure data warehousing in BigQuery  
 
 ---
 
-## **Folder Structure**
+## Architecture
+The platform consists of the following distributed components:
 
-```
+- **API Ingestion Service**
+  - Fetches metadata from the YouTube API.
+  - Publishes JSON messages to a Google Cloud Pub/Sub topic.
+
+- **Pub/Sub Messaging Backbone**
+  - Decouples ingestion from processing.
+  - Supports replay, backoff, and scalable parallel consumption.
+
+- **Data Processing & ETL**
+  - Raw events are written to Google Cloud Storage.
+  - Transformations produce clean structured datasets for analytics.
+
+- **DBT Semantic Modeling**
+  - DBT models apply staging, cleaning, and fact dim transformations.
+  - Data quality tests validate referential integrity and schema rules.
+
+- **BigQuery Data Warehouse**
+  - Stores governed analytics ready tables.
+  - Optimized for low cost scans using partitioning and clustering.
+
+- **Cloud Composer (Airflow) Orchestration**
+  - Manages scheduling, dependencies, retries, and monitoring signals.
+
+- **Logging and Observability**
+  - Pipeline logs captured in GCP logging.
+  - DAG execution history enables traceability and incident analysis.
+
+---
+
+## Platform Capabilities
+- Asynchronous event ingestion via Pub/Sub  
+- Distributed orchestration via Composer  
+- Storage layer in GCS and BigQuery  
+- Transformations and modeling using DBT  
+- Schema validation and testing  
+- IAM security with service accounts  
+- CI friendly modular structure  
+
+---
+
+## Folder Structure
+```text
 .
-├── analyses/         # Custom SQL queries for DBT analyses
-├── macros/           # Reusable macros for DBT models
-├── models/           # DBT models for data transformation
-│   ├── example/      # Example models (replace with project-specific models)
-├── seeds/            # Static data loaded into BigQuery
-├── snapshots/        # Snapshots for tracking data changes
-├── tests/            # Unit tests for DBT models
-├── dags/             # Airflow DAGs for pipeline orchestration
-│   ├── fetch_data.py # DAG for fetching YouTube data
-│   ├── process_data.py # DAG for processing raw data
-│   ├── transform_data.py # DAG for running DBT transformations
-├── youtube_fetcher/  # Python script for fetching YouTube data via API
-├── dbt_project.yml   # Configuration for the DBT project
+├── analyses/         # DBT analyses and custom queries
+├── dags/             # Airflow / Composer DAGs for orchestration
+├── macros/           # Reusable DBT macros
+├── models/           # DBT models (staging + analytics)
+├── seeds/            # Static seed datasets
+├── snapshots/        # DBT snapshots for slowly changing data
+├── tests/            # DBT tests for data quality
+├── fetch.py          # API ingestion script for YouTube data
+├── dbt_project.yml   # DBT project configuration
 ├── .gitignore        # Git ignore rules
-├── README.md         # Project documentation (this file)
-```
+└── README.md         # Platform documentation
 
 ---
 
-## **How It Works**
-
-### **1. YouTube Data Fetching**
-- A Python script (`youtube_fetcher.py`) connects to the YouTube Data API.
-- Fetches details like live stream metadata and uploaded videos.
-- Publishes raw data to a Google Cloud Pub/Sub topic.
-
-### **2. Pipeline Orchestration**
-- Managed by **Apache Airflow** using three DAGs:
-  - **`fetch_data.py`**: Fetches YouTube data on a schedule.
-  - **`process_data.py`**: Processes raw data and uploads it to GCS.
-  - **`transform_data.py`**: Runs DBT models to transform data.
-
-### **3. Data Transformation**
-- DBT models in the `models/` directory transform raw data into analysis-ready datasets:
-  - **Staging Models**: Cleans and standardizes raw data.
-  - **Fact and Dimension Tables**: Aggregates data for reporting and analysis.
-- Processed data is stored in **BigQuery**.
+## Workflow
+1. Ingestion service publishes events to Pub/Sub.  
+2. Raw event payloads are stored in GCS.  
+3. Composer coordinates end to end DAG execution.  
+4. DBT transforms raw data into clean dimensional tables.  
+5. BigQuery enables analytical querying and dashboarding.  
 
 ---
 
-## **Getting Started**
-
-### **1. Clone the Repository**
-```bash
-git clone https://github.com/vk20001/youtube-data-orchestration.git
-cd youtube-data-orchestration
-```
-
-### **2. Install Requirements**
-- Install the required Python libraries:
-```bash
-pip install -r requirements.txt
-```
-
-### **3. Set Up Google Cloud**
-- Enable the following services:
-  - **YouTube Data API**.
-  - **Google Cloud Storage**.
-  - **BigQuery**.
-- Set up authentication:
-  - Download the service account key file.
-  - Set the environment variable:
-    ```bash
-    export GOOGLE_APPLICATION_CREDENTIALS="<path_to_service_account_key>"
-    ```
-
-### **4. Deploy Airflow DAGs**
-- Copy the DAGs to your Airflow DAGs folder:
-```bash
-cp dags/*.py <AIRFLOW_HOME>/dags/
-```
-- Start Airflow and trigger the DAGs:
-```bash
-airflow webserver
-airflow scheduler
-```
-
-### **5. Execute DBT Models**
-- Navigate to the `dbt/` folder.
-- Run transformations:
-```bash
-dbt run
-```
-- Test the models:
-```bash
-dbt test
-```
+## Key Features
+- Event driven ingestion (Pub/Sub)  
+- Distributed orchestration (Composer)  
+- Scalable transformation and modeling (DBT)  
+- Analytical storage (BigQuery)  
+- Secure access (IAM and service accounts)  
+- Robust logging and auditability  
 
 ---
 
-## **Key Features**
-- Automated YouTube data ingestion using the YouTube Data API.
-- Pipeline orchestration using Apache Airflow DAGs.
-- Scalable transformations and clean datasets using DBT.
-- Cloud-native architecture leveraging Google Cloud services.
+## Technologies
+- **Python** – ingestion and orchestration logic  
+- **Google Cloud Pub/Sub** – event streaming  
+- **Cloud Composer (Airflow)** – workflows and orchestration  
+- **BigQuery** – governed analytical storage  
+- **Google Cloud Storage** – raw data persistence  
+- **DBT** – semantic transformations and testing  
+- **YouTube Data API** – external data source  
 
 ---
 
-## **Technologies Used**
-- **Python**: For scripting and DAGs.
-- **Apache Airflow**: For pipeline orchestration.
-- **DBT (Data Build Tool)**: For data transformations.
-- **Google Cloud**: For storage and data analytics.
-  - **BigQuery**: For data warehousing.
-  - **Cloud Storage**: For raw data storage.
-  - **Pub/Sub**: For message-based data ingestion.
-- **YouTube Data API**: For fetching YouTube metadata.
-
----
-
-## **Future Enhancements**
-- Add automated testing for DAGs and DBT models.
-- Integrate a dashboard for visualizing YouTube analytics.
-- Extend support to other social media APIs.
-
-
+## Future Enhancements
+- CI workflows for automated DBT testing  
+- DAG level metrics emission for monitoring  
+- Advanced lineage tracking and metadata cataloging  
+- Visualization dashboards  
